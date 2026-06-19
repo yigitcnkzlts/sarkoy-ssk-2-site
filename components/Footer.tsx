@@ -1,8 +1,8 @@
 import { footerLinks } from "@/lib/navigation";
-import { siteConfig } from "@/lib/site";
+import { siteConfig, whatsappUrl } from "@/lib/site";
 import SiteBrand from "@/components/SiteBrand";
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -61,7 +61,15 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm text-white/55">
                 <Phone size={16} className="flex-shrink-0 text-sea-light" />
-                Belirlenecek
+                <a href={`tel:${siteConfig.phone.replace(/\s/g, "")}`} className="hover:text-white">
+                  {siteConfig.phoneDisplay}
+                </a>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-white/55">
+                <MessageCircle size={16} className="flex-shrink-0 text-[#25D366]" />
+                <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                  WhatsApp
+                </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-white/55">
                 <Mail size={16} className="flex-shrink-0 text-sea-light" />

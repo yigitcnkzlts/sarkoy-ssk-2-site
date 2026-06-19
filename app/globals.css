@@ -254,3 +254,40 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* WhatsApp FAB */
+@keyframes whatsapp-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.35); opacity: 0; }
+}
+
+.whatsapp-pulse {
+  animation: whatsapp-pulse 2s ease-out infinite;
+}
+
+/* Lightbox */
+.lightbox-overlay {
+  animation: fade-in 0.3s ease;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Print styles for documents */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .document-print {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  body {
+    background: white;
+    color: #0f2744;
+  }
+}

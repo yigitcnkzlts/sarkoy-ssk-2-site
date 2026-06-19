@@ -1,26 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Calendar, Megaphone } from "lucide-react";
+import { ArrowRight, Calendar, Download, Megaphone } from "lucide-react";
 import Link from "next/link";
+import { announcements, categoryColors } from "@/lib/announcements";
 
-const latestAnnouncements = [
-  {
-    date: "15 Haziran 2026",
-    title: "Genel Kurul Toplantısı Duyurusu",
-    category: "Toplantı",
-  },
-  {
-    date: "10 Haziran 2026",
-    title: "Aidat Bilgilendirmesi",
-    category: "Aidat",
-  },
-  {
-    date: "1 Haziran 2026",
-    title: "Yaz Sezonu Bilgilendirmesi",
-    category: "Sezon",
-  },
-];
+const latestAnnouncements = announcements.slice(0, 3);
 
 export default function HomeAnnouncementsPreview() {
   return (
@@ -37,7 +22,7 @@ export default function HomeAnnouncementsPreview() {
           </div>
           <Link
             href="/duyurular"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-sea hover:gap-3 transition-all"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-sea transition-all hover:gap-3"
           >
             Tüm Duyurular
             <ArrowRight size={16} />
@@ -47,28 +32,38 @@ export default function HomeAnnouncementsPreview() {
         <div className="grid gap-4 md:grid-cols-3">
           {latestAnnouncements.map((item, i) => (
             <motion.div
-              key={item.title}
+              key={item.slug}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
             >
               <Link
-                href="/duyurular"
-                className="card-premium group block h-full rounded-2xl border border-sand/60 bg-sand-light/30 p-6 transition-all hover:border-sea/30 hover:bg-white"
+                href={`/belgeler/${item.slug}`}
+                className="card-premium group flex h-full flex-col rounded-2xl border border-sand/60 bg-sand-light/30 p-6 transition-all hover:border-sea/30 hover:bg-white"
               >
                 <div className="mb-4 flex items-center justify-between">
-                  <span className="rounded-full bg-navy px-3 py-1 text-xs font-semibold text-white">
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-semibold ${categoryColors[item.category]}`}
+                  >
                     {item.category}
                   </span>
                   <Megaphone size={16} className="text-sea/40" />
                 </div>
-                <h3 className="mb-3 font-semibold text-navy group-hover:text-sea transition-colors">
+                <h3 className="mb-3 font-semibold text-navy transition-colors group-hover:text-sea">
                   {item.title}
                 </h3>
-                <div className="flex items-center gap-1.5 text-xs text-navy/50">
-                  <Calendar size={13} />
-                  {item.date}
+                <div className="mt-auto flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 text-xs text-navy/50">
+                    <Calendar size={13} />
+                    {item.date}
+                  </div>
+                  {item.hasDocument && (
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-sea">
+                      <Download size={12} />
+                      PDF
+                    </span>
+                  )}
                 </div>
               </Link>
             </motion.div>

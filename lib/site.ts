@@ -9,8 +9,20 @@ export const siteConfig = {
     "Şarköy SSK2 Sitesi resmi tanıtım ve bilgilendirme web sitesi. 17 blok, 308 daire, denize 1 dakika mesafede yazlık yaşam alanı.",
   email: "info@ssk2sitesi.com",
   managementEmail: "yonetim@ssk2sitesi.com",
+  phone: process.env.NEXT_PUBLIC_SITE_PHONE || "+90 555 000 00 00",
+  phoneDisplay: process.env.NEXT_PUBLIC_SITE_PHONE_DISPLAY || "0 (555) 000 00 00",
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP || "905550000000",
+  whatsappMessage: "Merhaba, SSK2 Sitesi hakkında bilgi almak istiyorum.",
   address: "SSK2 Sitesi, Şarköy, Tekirdağ",
   managementName: "SSK2 Sitesi Yönetimi",
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://sarkoy-ssk-2-site.vercel.app",
+  map: {
+    latitude: 40.6136,
+    longitude: 27.0864,
+    embedUrl:
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12088.5!2d27.0864!3d40.6136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM40LjYxMzYsIDI3LjA4NjQ!5e0!3m2!1str!2str!4v1710000000000!5m2!1str!2str",
+    directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=40.6136,27.0864",
+  },
   stats: {
     blocks: 17,
     units: 308,
@@ -141,4 +153,9 @@ export const siteFacts = [
 
 export function pageTitle(section: string) {
   return `${section} | ${siteConfig.fullName}`;
+}
+
+export function whatsappUrl(message?: string) {
+  const text = encodeURIComponent(message ?? siteConfig.whatsappMessage);
+  return `https://wa.me/${siteConfig.whatsapp}?text=${text}`;
 }

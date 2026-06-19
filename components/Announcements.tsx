@@ -1,63 +1,27 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight, Calendar, Download, FileText } from "lucide-react";
+import Link from "next/link";
 import SectionHeader from "./SectionHeader";
-
-const announcements = [
-  {
-    date: "15 Haziran 2026",
-    category: "Toplantı",
-    title: "Genel Kurul Toplantısı Duyurusu",
-    description:
-      "2026 yılı olağan genel kurul toplantımız 28 Haziran 2026 tarihinde site sosyal tesisinde gerçekleştirilecektir. Tüm site sakinlerinin katılımı önemle rica olunur.",
-  },
-  {
-    date: "10 Haziran 2026",
-    category: "Aidat",
-    title: "Aidat Bilgilendirmesi",
-    description:
-      "2026 yaz sezonu aidat ödemeleri hakkında bilgilendirme. Ödeme detayları ve banka hesap bilgileri güncellenmiştir.",
-  },
-  {
-    date: "5 Haziran 2026",
-    category: "Bakım",
-    title: "Site Bakım Çalışmaları",
-    description:
-      "Site genelinde peyzaj düzenleme ve ortak alan bakım çalışmaları 20-25 Haziran tarihleri arasında yapılacaktır.",
-  },
-  {
-    date: "1 Haziran 2026",
-    category: "Sezon",
-    title: "Yaz Sezonu Bilgilendirmesi",
-    description:
-      "Yaz sezonu başlangıcı ile ilgili site kuralları, su kullanımı ve ortak alan kullanım bilgileri paylaşılmıştır.",
-  },
-];
-
-const categoryColors: Record<string, string> = {
-  Toplantı: "bg-navy text-white",
-  Aidat: "bg-sea text-white",
-  Bakım: "bg-gold/80 text-navy",
-  Sezon: "bg-sea-light text-navy",
-};
+import { announcements, categoryColors } from "@/lib/announcements";
 
 export default function Announcements({ hideHeader = false }: { hideHeader?: boolean }) {
   return (
     <section id="duyurular" className={`bg-mesh-light ${hideHeader ? "py-12 sm:py-16" : "py-24 sm:py-32"}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {!hideHeader && (
-        <SectionHeader
-          badge="Duyurular"
-          title="Güncel Haberler ve Duyurular"
-          description="Site yönetiminden güncel duyurular, toplantı bilgileri ve önemli haberler."
-        />
+          <SectionHeader
+            badge="Duyurular"
+            title="Güncel Haberler ve Duyurular"
+            description="Site yönetiminden güncel duyurular, toplantı bilgileri ve indirilebilir belgeler."
+          />
         )}
 
         <div className="grid gap-6 sm:grid-cols-2">
           {announcements.map((item, i) => (
             <motion.article
-              key={item.title}
+              key={item.slug}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -83,13 +47,31 @@ export default function Announcements({ hideHeader = false }: { hideHeader?: boo
                 <p className="mb-6 flex-1 text-sm leading-relaxed text-navy/65">
                   {item.description}
                 </p>
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-2 self-start text-sm font-semibold text-sea transition-all hover:gap-3"
-                >
-                  Devamını Oku
-                  <ArrowRight size={16} />
-                </button>
+                <div className="flex flex-wrap items-center gap-3">
+                  <Link
+                    href={`/belgeler/${item.slug}`}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-sea transition-all hover:gap-3"
+                  >
+                    Devamını Oku
+                    <ArrowRight size={16} />
+                  </Link>
+                  {item.hasDocument && (
+                    <Link
+                      href={`/belgeler/${item.slug}?print=1`}
+                      target="_blank"
+                      className="inline-flex items-center gap-2 rounded-xl border border-sand bg-sand-light/50 px-4 py-2 text-sm font-medium text-navy transition-colors hover:border-sea/30 hover:text-sea"
+                    >
+                      <Download size={15} />
+                      PDF İndir
+                    </Link>
+                  )}
+                  {item.hasDocument && (
+                    <span className="inline-flex items-center gap-1 text-xs text-navy/40">
+                      <FileText size={12} />
+                      Resmi belge
+                    </span>
+                  )}
+                </div>
               </div>
             </motion.article>
           ))}

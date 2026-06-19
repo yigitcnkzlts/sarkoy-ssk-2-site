@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
-import { siteConfig } from "@/lib/site";
+import { Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
+import { siteConfig, whatsappUrl } from "@/lib/site";
 import { FormEvent, useState } from "react";
 import SectionHeader from "./SectionHeader";
+import SiteMap from "./SiteMap";
 
 export default function Contact({ hideHeader = false }: { hideHeader?: boolean }) {
   const [submitted, setSubmitted] = useState(false);
@@ -18,12 +19,21 @@ export default function Contact({ hideHeader = false }: { hideHeader?: boolean }
     <section id="iletisim" className={`bg-white ${hideHeader ? "py-12 sm:py-16" : "py-24 sm:py-32"}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {!hideHeader && (
-        <SectionHeader
-          badge="İletişim"
-          title="Bize Ulaşın"
-          description="Sorularınız, önerileriniz veya talepleriniz için site yönetimi ile iletişime geçin."
-        />
+          <SectionHeader
+            badge="İletişim"
+            title="Bize Ulaşın"
+            description="Sorularınız, önerileriniz veya talepleriniz için site yönetimi ile iletişime geçin."
+          />
         )}
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-10"
+        >
+          <SiteMap className="premium-ring shadow-xl" />
+        </motion.div>
 
         <div className="grid gap-8 lg:grid-cols-5 lg:gap-10">
           <motion.form
@@ -71,7 +81,7 @@ export default function Contact({ hideHeader = false }: { hideHeader?: boolean }
                       name="phone"
                       type="tel"
                       required
-                      placeholder="0 (5XX) XXX XX XX"
+                      placeholder={siteConfig.phoneDisplay}
                       className="w-full rounded-2xl border border-sand bg-white px-5 py-3.5 text-sm text-navy outline-none transition-all placeholder:text-navy/35 focus:border-sea focus:ring-4 focus:ring-sea/10"
                     />
                   </div>
@@ -104,7 +114,7 @@ export default function Contact({ hideHeader = false }: { hideHeader?: boolean }
                   <div className="sm:col-span-2">
                     <button
                       type="submit"
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-sea px-8 py-4 text-base font-semibold text-white shadow-xl shadow-sea/20 transition-all hover:bg-sea-light hover:shadow-2xl sm:w-auto"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sea to-sea-dark px-8 py-4 text-base font-semibold text-white shadow-xl shadow-sea/20 transition-all hover:shadow-2xl sm:w-auto"
                     >
                       <Send size={18} />
                       Mesaj Gönder
@@ -149,7 +159,9 @@ export default function Contact({ hideHeader = false }: { hideHeader?: boolean }
                     <p className="mb-0.5 text-xs font-medium uppercase tracking-wider text-white/50">
                       Telefon
                     </p>
-                    <p className="text-sm text-white/85">Belirlenecek</p>
+                    <a href={`tel:${siteConfig.phone.replace(/\s/g, "")}`} className="text-sm text-white/85 hover:text-sea-light">
+                      {siteConfig.phoneDisplay}
+                    </a>
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
@@ -160,19 +172,32 @@ export default function Contact({ hideHeader = false }: { hideHeader?: boolean }
                     <p className="mb-0.5 text-xs font-medium uppercase tracking-wider text-white/50">
                       E-posta
                     </p>
-                    <p className="text-sm text-white/85">{siteConfig.email}</p>
+                    <a href={`mailto:${siteConfig.email}`} className="text-sm text-white/85 hover:text-sea-light">
+                      {siteConfig.email}
+                    </a>
                   </div>
                 </li>
               </ul>
-              <a
-                href="https://maps.google.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white transition-all hover:bg-white/20"
-              >
-                <MapPin size={16} />
-                Haritada Görüntüle
-              </a>
+              <div className="mt-8 grid gap-3">
+                <a
+                  href={whatsappUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white transition-all hover:brightness-110"
+                >
+                  <MessageCircle size={16} />
+                  WhatsApp ile Yazın
+                </a>
+                <a
+                  href={siteConfig.map.directionsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white transition-all hover:bg-white/20"
+                >
+                  <MapPin size={16} />
+                  Haritada Görüntüle
+                </a>
+              </div>
             </div>
           </motion.div>
         </div>
