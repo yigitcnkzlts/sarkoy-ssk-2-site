@@ -52,16 +52,17 @@ export default function SiteStats() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="bg-mesh-dark py-16 sm:py-20">
+    <section ref={ref} className="relative overflow-hidden bg-mesh-dark py-16 sm:py-20">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sea/30 to-transparent" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-8">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: i * 0.1, duration: 0.6 }}
-              className="text-center"
+              className="premium-ring rounded-2xl border border-white/8 bg-white/5 px-4 py-8 text-center backdrop-blur-sm"
             >
               <p className="font-display mb-2 text-4xl font-bold text-gradient sm:text-5xl lg:text-6xl">
                 <AnimatedNumber

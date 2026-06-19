@@ -1,9 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Building2, ChevronRight, Menu, Phone, X } from "lucide-react";
+import { ChevronRight, Menu, Phone, X } from "lucide-react";
+import SiteBrand from "@/components/SiteBrand";
 import { navLinks } from "@/lib/navigation";
-import { siteConfig } from "@/lib/site";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -53,29 +53,16 @@ export default function Navbar() {
         >
           <Link href="/" className="group flex shrink-0 items-center gap-3 pr-2">
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-105 ${
+              className={`flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-105 ${
                 showSolid
-                  ? "bg-gradient-to-br from-sea to-sea-dark text-white shadow-md shadow-sea/25"
-                  : "bg-white/15 text-sea-light backdrop-blur-sm"
+                  ? "bg-gradient-to-br from-navy to-navy-light shadow-md shadow-navy/20"
+                  : "border border-white/15 bg-white/10 backdrop-blur-sm"
               }`}
             >
-              <Building2 size={20} strokeWidth={2.5} />
+              <SiteBrand variant="mark" light={!showSolid} />
             </div>
             <div className="hidden sm:block">
-              <p
-                className={`font-display text-base font-bold leading-none transition-colors ${
-                  showSolid ? "text-navy" : "text-white"
-                }`}
-              >
-                {siteConfig.shortName} Sitesi
-              </p>
-              <p
-                className={`mt-0.5 text-[10px] font-medium uppercase tracking-[0.15em] transition-colors ${
-                  showSolid ? "text-navy/45" : "text-white/50"
-                }`}
-              >
-                Şarköy · Tekirdağ
-              </p>
+              <SiteBrand variant="navbar" light={!showSolid} />
             </div>
           </Link>
 
@@ -162,15 +149,10 @@ export default function Navbar() {
             >
               <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sea/20 text-sea-light">
-                    <Building2 size={18} />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-navy-light">
+                    <SiteBrand variant="mark" light />
                   </div>
-                  <div>
-                    <p className="font-display font-bold text-white">{siteConfig.shortName} Sitesi</p>
-                    <p className="text-[10px] uppercase tracking-widest text-white/40">
-                      Site Yönetimi
-                    </p>
-                  </div>
+                  <SiteBrand variant="navbar" light />
                 </div>
                 <button
                   type="button"

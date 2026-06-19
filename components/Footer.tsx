@@ -1,5 +1,6 @@
 import { footerLinks } from "@/lib/navigation";
 import { siteConfig } from "@/lib/site";
+import SiteBrand from "@/components/SiteBrand";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 
@@ -12,9 +13,7 @@ export default function Footer() {
       <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
           <div>
-            <h3 className="font-display mb-5 text-2xl font-bold">
-              <span className="text-sea-light">{siteConfig.shortName}</span> Sitesi
-            </h3>
+            <SiteBrand variant="footer" className="mb-5" />
             <p className="mb-6 text-sm leading-relaxed text-white/55">
               Şarköy&apos;ün sakin atmosferinde, komşuluk kültürünü ve yazlık yaşam
               konforunu bir araya getiren özel bir yaşam alanı. Denize yakın, aile
@@ -28,7 +27,7 @@ export default function Footer() {
                 Tekirdağ
               </span>
               <span className="rounded-full bg-sea/20 px-3 py-1 text-xs text-sea-light">
-                {siteConfig.shortName}
+                SSK 2
               </span>
             </div>
           </div>

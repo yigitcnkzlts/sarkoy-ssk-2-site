@@ -11,6 +11,7 @@ export default function PageBanner({ title, description }: PageBannerProps) {
       <div className="pointer-events-none absolute inset-0 bg-mesh-dark opacity-60" />
       <div className="pointer-events-none absolute -right-20 top-0 h-64 w-64 rounded-full bg-sea/15 blur-3xl" />
       <div className="pointer-events-none absolute -left-10 bottom-0 h-48 w-48 rounded-full bg-gold/10 blur-3xl" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sea/40 to-transparent" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-3 flex items-center gap-2 text-sm text-white/50">
