@@ -1,5 +1,7 @@
-import DuesInfo from "@/components/DuesInfo";
+import AidatContent from "@/components/AidatContent";
+import AidatLogin from "@/components/AidatLogin";
 import PageBanner from "@/components/PageBanner";
+import { isAidatAuthenticated } from "@/lib/aidat-auth";
 import { pageMeta } from "@/lib/navigation";
 import { pageTitle } from "@/lib/site";
 import type { Metadata } from "next";
@@ -9,12 +11,21 @@ export const metadata: Metadata = {
   description: pageMeta["/aidat"].description,
 };
 
-export default function AidatPage() {
+export default async function AidatPage() {
   const meta = pageMeta["/aidat"];
+  const authed = await isAidatAuthenticated();
+
   return (
     <main>
-      <PageBanner title={meta.title} description={meta.description} />
-      <DuesInfo hideHeader />
+      <PageBanner
+        title={meta.title}
+        description={
+          authed
+            ? meta.description
+            : "Aidat bilgilerine erişmek için giriş yapın."
+        }
+      />
+      {authed ? <AidatContent /> : <AidatLogin />}
     </main>
   );
 }
