@@ -22,7 +22,7 @@ export default async function AidatPage() {
         description={
           authed
             ? meta.description
-            : "Aidat bilgilerine erişmek için giriş yapın."
+            : "Aidat bilgileri yalnızca site sakinlerine özeldir. Aşağıdan giriş yapın."
         }
       />
       {authed ? <AidatContent /> : <AidatLogin />}

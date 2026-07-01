@@ -1,7 +1,9 @@
 "use client";
 
+import LoginField from "@/components/LoginField";
+import SiteBrand from "@/components/SiteBrand";
 import { motion } from "framer-motion";
-import { Lock, LogIn, User } from "lucide-react";
+import { KeyRound, LogIn, ShieldCheck, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -39,80 +41,52 @@ export default function AidatLogin() {
   }
 
   return (
-    <section className="bg-white py-16 sm:py-24">
-      <div className="mx-auto max-w-md px-4 sm:px-6">
+    <section className="bg-mesh-light py-14 sm:py-20">
+      <div className="mx-auto max-w-lg px-4 sm:px-6">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="card-premium overflow-hidden rounded-3xl border border-sand/60 bg-sand-light/30 shadow-lg"
+          transition={{ duration: 0.45 }}
+          className="overflow-hidden rounded-3xl border border-sand/60 bg-white shadow-xl"
         >
           <div className="border-b border-sand/60 bg-navy px-8 py-8 text-center">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-sea/20 text-sea-light">
-              <Lock size={28} />
+            <div className="mb-5 flex justify-center">
+              <SiteBrand variant="footer" />
             </div>
-            <h2 className="font-display text-2xl font-bold text-white">
-              Aidat Girişi
-            </h2>
-            <p className="mt-2 text-sm text-white/65">
-              Aidat bilgilerini görüntülemek için site yönetimi tarafından
-              verilen kullanıcı adı ve şifre ile giriş yapın.
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-sea/20 text-sea-light">
+              <ShieldCheck size={24} />
+            </div>
+            <h2 className="font-display text-2xl font-bold text-white">Üye Girişi</h2>
+            <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-white/65">
+              Aidat ve ödeme bilgilerini görüntülemek için site yönetiminin verdiği
+              kullanıcı adı ve şifre ile giriş yapın.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5 px-8 py-8">
-            <div>
-              <label
-                htmlFor="aidat-username"
-                className="mb-2 block text-sm font-medium text-navy"
-              >
-                Kullanıcı Adı
-              </label>
-              <div className="relative">
-                <User
-                  size={18}
-                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-navy/35"
-                />
-                <input
-                  id="aidat-username"
-                  type="text"
-                  value={username}
-                  onChange={(event) => setUsername(event.target.value)}
-                  autoComplete="username"
-                  required
-                  className="w-full rounded-xl border border-sand/80 bg-white py-3 pl-11 pr-4 text-navy outline-none transition-colors focus:border-sea focus:ring-2 focus:ring-sea/20"
-                  placeholder="Kullanıcı adınız"
-                />
-              </div>
-            </div>
+          <form onSubmit={handleSubmit} className="space-y-6 p-8">
+            <LoginField
+              id="aidat-username"
+              label="Kullanıcı Adı"
+              icon={User}
+              value={username}
+              onChange={setUsername}
+              placeholder="Örn. ssk2"
+              autoComplete="username"
+            />
 
-            <div>
-              <label
-                htmlFor="aidat-password"
-                className="mb-2 block text-sm font-medium text-navy"
-              >
-                Şifre
-              </label>
-              <div className="relative">
-                <Lock
-                  size={18}
-                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-navy/35"
-                />
-                <input
-                  id="aidat-password"
-                  type="password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  autoComplete="current-password"
-                  required
-                  className="w-full rounded-xl border border-sand/80 bg-white py-3 pl-11 pr-4 text-navy outline-none transition-colors focus:border-sea focus:ring-2 focus:ring-sea/20"
-                  placeholder="Şifreniz"
-                />
-              </div>
-            </div>
+            <LoginField
+              id="aidat-password"
+              label="Şifre"
+              icon={KeyRound}
+              type="password"
+              value={password}
+              onChange={setPassword}
+              placeholder="Şifrenizi girin"
+              autoComplete="current-password"
+            />
 
             {error && (
-              <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+              <p className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600">
                 {error}
               </p>
             )}
@@ -120,11 +94,16 @@ export default function AidatLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sea to-sea-dark py-3.5 text-sm font-semibold text-white shadow-md shadow-sea/30 transition-all hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sea to-sea-dark py-3.5 text-sm font-semibold text-white shadow-md shadow-sea/25 transition-all hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70"
             >
               <LogIn size={16} />
               {loading ? "Giriş yapılıyor..." : "Giriş Yap"}
             </button>
+
+            <p className="text-center text-xs leading-relaxed text-navy/45">
+              Giriş bilgilerinizi site yönetiminden alabilirsiniz. Bu sayfa sadece site
+              sakinleri içindir.
+            </p>
           </form>
         </motion.div>
       </div>

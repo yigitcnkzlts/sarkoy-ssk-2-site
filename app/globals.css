@@ -283,6 +283,7 @@ body {
 
 .admin-input {
   width: 100%;
+  box-sizing: border-box;
   border-radius: 0.75rem;
   border: 1px solid color-mix(in srgb, var(--color-sand) 80%, transparent);
   background: white;
@@ -293,6 +294,26 @@ body {
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
+.form-input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 3rem;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--color-sand) 80%, transparent);
+  background: white;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  font-size: 0.9375rem;
+  line-height: 1.25rem;
+  color: var(--color-navy);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-input::placeholder {
+  color: color-mix(in srgb, var(--color-navy) 35%, transparent);
+}
+
+.form-input:focus,
 .admin-input:focus {
   border-color: color-mix(in srgb, var(--color-sea) 50%, transparent);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-sea) 15%, transparent);
