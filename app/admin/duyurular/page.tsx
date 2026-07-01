@@ -1,8 +1,10 @@
 import AnnouncementManager from "@/components/admin/AnnouncementManager";
 import { contentStore } from "@/lib/db/store";
 
-export default function AdminDuyurularPage() {
-  const announcements = contentStore.getAnnouncements();
+export const dynamic = "force-dynamic";
+
+export default async function AdminDuyurularPage() {
+  const announcements = await contentStore.getAnnouncements();
 
   return (
     <div>

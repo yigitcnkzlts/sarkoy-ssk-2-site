@@ -11,9 +11,11 @@ import SiteStats from "@/components/SiteStats";
 import { getAnnouncements } from "@/lib/announcements";
 import { contentStore } from "@/lib/db/store";
 
-export default function Home() {
-  const announcements = getAnnouncements().slice(0, 3);
-  const events = contentStore.getEvents(true).slice(0, 3);
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const announcements = (await getAnnouncements()).slice(0, 3);
+  const events = (await contentStore.getEvents(true)).slice(0, 3);
 
   return (
     <main>

@@ -23,7 +23,8 @@ export default function HomeLocationWeather() {
             Şarköy&apos;de, Denizin Kalbinde
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-white/60">
-            {siteConfig.fullName} konumu ve Şarköy&apos;ün güncel hava durumu.
+            {siteConfig.fullName} — {siteConfig.address}. Güncel hava durumu site konumuna göre
+            her 5 dakikada bir yenilenir.
           </p>
         </div>
 

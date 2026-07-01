@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Download, FileText } from "lucide-react";
 import Link from "next/link";
 import SectionHeader from "./SectionHeader";
-import { categoryColors } from "@/lib/announcements";
+import { announcementCategoryColors } from "@/lib/types/content";
 import type { Announcement } from "@/lib/types/content";
 
 export default function Announcements({
@@ -39,7 +39,7 @@ export default function Announcements({
               <div className="flex flex-1 flex-col p-7 sm:p-8">
                 <div className="mb-4 flex items-center justify-between">
                   <span
-                    className={`rounded-full px-3 py-1 text-xs font-semibold ${categoryColors[item.category]}`}
+                    className={`rounded-full px-3 py-1 text-xs font-semibold ${announcementCategoryColors[item.category]}`}
                   >
                     {item.category}
                   </span>

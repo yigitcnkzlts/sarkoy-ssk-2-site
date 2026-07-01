@@ -84,9 +84,17 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} {siteConfig.fullName}. Tüm hakları
             saklıdır.
           </p>
-          <p className="text-xs text-white/25">
-            Denize yakın · Aile dostu · Huzurlu yaşam
-          </p>
+          <div className="flex flex-col items-center gap-2 sm:items-end">
+            <p className="text-xs text-white/25">
+              Denize yakın · Aile dostu · Huzurlu yaşam
+            </p>
+            <Link
+              href="/admin/login"
+              className="text-xs text-white/30 transition-colors hover:text-white/60"
+            >
+              Site Yönetimi
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -8,10 +8,10 @@ import {
 export type { Announcement, AnnouncementCategory };
 export const categoryColors = announcementCategoryColors;
 
-export function getAnnouncements() {
+export async function getAnnouncements() {
   return contentStore.getAnnouncements(true);
 }
 
-export function getAnnouncement(slug: string) {
+export async function getAnnouncement(slug: string) {
   return contentStore.getAnnouncementBySlug(slug);
 }

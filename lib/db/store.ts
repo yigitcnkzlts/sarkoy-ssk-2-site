@@ -1,5 +1,5 @@
 import type { Announcement, SiteEvent } from "@/lib/types/content";
-import { seedAnnouncements, seedEvents } from "./seed";
+import { loadContent, saveContent } from "./persistence";
 
 function slugify(text: string) {
   return text
@@ -18,39 +18,21 @@ function newId(prefix: string) {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
-type Store = {
-  announcements: Announcement[];
-  events: SiteEvent[];
-};
-
-declare global {
-  // eslint-disable-next-line no-var
-  var __ssk2ContentStore: Store | undefined;
-}
-
-function getStore(): Store {
-  if (!global.__ssk2ContentStore) {
-    global.__ssk2ContentStore = {
-      announcements: structuredClone(seedAnnouncements),
-      events: structuredClone(seedEvents),
-    };
-  }
-  return global.__ssk2ContentStore;
-}
-
 export const contentStore = {
-  getAnnouncements(publishedOnly = false) {
-    const items = getStore().announcements;
-    return publishedOnly ? items.filter((a) => a.published) : [...items];
+  async getAnnouncements(publishedOnly = false) {
+    const { announcements } = await loadContent();
+    return publishedOnly ? announcements.filter((a) => a.published) : [...announcements];
   },
 
-  getAnnouncementBySlug(slug: string) {
-    return getStore().announcements.find((a) => a.slug === slug && a.published);
+  async getAnnouncementBySlug(slug: string) {
+    const { announcements } = await loadContent();
+    return announcements.find((a) => a.slug === slug && a.published);
   },
 
-  createAnnouncement(
+  async createAnnouncement(
     data: Omit<Announcement, "id" | "slug" | "createdAt" | "updatedAt">,
   ) {
+    const store = await loadContent();
     const now = new Date().toISOString();
     const item: Announcement = {
       ...data,
@@ -59,12 +41,13 @@ export const contentStore = {
       createdAt: now,
       updatedAt: now,
     };
-    getStore().announcements.unshift(item);
+    store.announcements.unshift(item);
+    await saveContent(store);
     return item;
   },
 
-  updateAnnouncement(id: string, data: Partial<Announcement>) {
-    const store = getStore();
+  async updateAnnouncement(id: string, data: Partial<Announcement>) {
+    const store = await loadContent();
     const index = store.announcements.findIndex((a) => a.id === id);
     if (index === -1) return null;
     store.announcements[index] = {
@@ -72,27 +55,32 @@ export const contentStore = {
       ...data,
       updatedAt: new Date().toISOString(),
     };
+    await saveContent(store);
     return store.announcements[index];
   },
 
-  deleteAnnouncement(id: string) {
-    getStore().announcements = getStore().announcements.filter((a) => a.id !== id);
+  async deleteAnnouncement(id: string) {
+    const store = await loadContent();
+    store.announcements = store.announcements.filter((a) => a.id !== id);
+    await saveContent(store);
   },
 
-  getEvents(publishedOnly = false) {
-    const items = getStore().events;
-    return publishedOnly ? items.filter((e) => e.published) : [...items];
+  async getEvents(publishedOnly = false) {
+    const { events } = await loadContent();
+    return publishedOnly ? events.filter((e) => e.published) : [...events];
   },
 
-  createEvent(data: Omit<SiteEvent, "id" | "createdAt" | "updatedAt">) {
+  async createEvent(data: Omit<SiteEvent, "id" | "createdAt" | "updatedAt">) {
+    const store = await loadContent();
     const now = new Date().toISOString();
     const item: SiteEvent = { ...data, id: newId("evt"), createdAt: now, updatedAt: now };
-    getStore().events.unshift(item);
+    store.events.unshift(item);
+    await saveContent(store);
     return item;
   },
 
-  updateEvent(id: string, data: Partial<SiteEvent>) {
-    const store = getStore();
+  async updateEvent(id: string, data: Partial<SiteEvent>) {
+    const store = await loadContent();
     const index = store.events.findIndex((e) => e.id === id);
     if (index === -1) return null;
     store.events[index] = {
@@ -100,15 +88,18 @@ export const contentStore = {
       ...data,
       updatedAt: new Date().toISOString(),
     };
+    await saveContent(store);
     return store.events[index];
   },
 
-  deleteEvent(id: string) {
-    getStore().events = getStore().events.filter((e) => e.id !== id);
+  async deleteEvent(id: string) {
+    const store = await loadContent();
+    store.events = store.events.filter((e) => e.id !== id);
+    await saveContent(store);
   },
 
-  getStats() {
-    const store = getStore();
+  async getStats() {
+    const store = await loadContent();
     return {
       announcements: store.announcements.length,
       events: store.events.length,

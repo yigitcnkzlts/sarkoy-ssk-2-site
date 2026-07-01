@@ -1,21 +1,47 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CloudSun, Droplets, Thermometer, Wind } from "lucide-react";
-import { useEffect, useState } from "react";
+import { CloudSun, Droplets, RefreshCw, Thermometer, Wind } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import type { WeatherData } from "@/lib/weather";
+
+const REFRESH_MS = 5 * 60 * 1000;
+
+function formatUpdatedAt(iso: string) {
+  return new Intl.DateTimeFormat("tr-TR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }).format(new Date(iso));
+}
 
 export default function WeatherWidget({ compact = false }: { compact?: boolean }) {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const loadWeather = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true);
+    else setRefreshing(true);
+
+    try {
+      const res = await fetch("/api/weather", { cache: "no-store" });
+      if (!res.ok) throw new Error("weather failed");
+      const data = (await res.json()) as WeatherData;
+      setWeather(data);
+    } catch {
+      if (!silent) setWeather(null);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  }, []);
 
   useEffect(() => {
-    fetch("/api/weather")
-      .then((res) => res.json())
-      .then((data) => setWeather(data))
-      .catch(() => setWeather(null))
-      .finally(() => setLoading(false));
-  }, []);
+    loadWeather();
+    const interval = setInterval(() => loadWeather(true), REFRESH_MS);
+    return () => clearInterval(interval);
+  }, [loadWeather]);
 
   if (loading) {
     return (
@@ -37,14 +63,35 @@ export default function WeatherWidget({ compact = false }: { compact?: boolean }
         compact ? "p-5" : "p-7"
       }`}
     >
-      <div className="mb-4 flex items-start justify-between">
+      <div className="mb-4 flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-sea-light">
-            Şarköy Hava Durumu
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-400" />
+            </span>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-sea-light">
+              Anlık Hava Durumu
+            </p>
+          </div>
+          <p className="mt-1 text-sm text-white/60">{weather.location}</p>
+          <p className="mt-1 text-xs text-white/45">
+            Son güncelleme: {formatUpdatedAt(weather.updatedAt)}
+            {refreshing && " · yenileniyor..."}
           </p>
-          <p className="mt-1 text-sm text-white/60">Canlı · Open-Meteo</p>
         </div>
-        <CloudSun size={compact ? 28 : 36} className="text-gold" />
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => loadWeather(true)}
+            disabled={refreshing}
+            className="rounded-lg p-2 text-white/60 transition-colors hover:bg-white/10 hover:text-white disabled:opacity-50"
+            aria-label="Hava durumunu yenile"
+          >
+            <RefreshCw size={16} className={refreshing ? "animate-spin" : ""} />
+          </button>
+          <CloudSun size={compact ? 28 : 36} className="text-gold" />
+        </div>
       </div>
 
       <div className="flex items-end gap-3">

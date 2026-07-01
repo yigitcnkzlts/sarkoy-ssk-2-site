@@ -1,8 +1,10 @@
 import EventManager from "@/components/admin/EventManager";
 import { contentStore } from "@/lib/db/store";
 
-export default function AdminEtkinliklerPage() {
-  const events = contentStore.getEvents();
+export const dynamic = "force-dynamic";
+
+export default async function AdminEtkinliklerPage() {
+  const events = await contentStore.getEvents();
 
   return (
     <div>

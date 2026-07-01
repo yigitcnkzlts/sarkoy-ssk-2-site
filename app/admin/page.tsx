@@ -2,8 +2,10 @@ import { contentStore } from "@/lib/db/store";
 import { Calendar, Megaphone } from "lucide-react";
 import Link from "next/link";
 
-export default function AdminDashboardPage() {
-  const stats = contentStore.getStats();
+export const dynamic = "force-dynamic";
+
+export default async function AdminDashboardPage() {
+  const stats = await contentStore.getStats();
 
   return (
     <div>
@@ -53,8 +55,8 @@ export default function AdminDashboardPage() {
       </div>
 
       <div className="mt-10 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
-        <strong>Not:</strong> Bu panel yalnızca site yöneticisi içindir. Giriş bilgilerinizi kimseyle
-        paylaşmayın. Aidat bilgileri ayrı bir girişle korunmaktadır.
+        <strong>Not:</strong> Eklediğiniz içeriklerin sitede görünmesi için &quot;Sitede yayınla&quot;
+        kutusunun işaretli olduğundan emin olun.
       </div>
     </div>
   );

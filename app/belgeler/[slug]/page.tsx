@@ -6,11 +6,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
+export const dynamic = "force-dynamic";
+
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const item = getAnnouncement(slug);
+  const item = await getAnnouncement(slug);
   if (!item) return { title: pageTitle("Belge") };
   return {
     title: pageTitle(item.title),
@@ -20,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BelgePage({ params }: Props) {
   const { slug } = await params;
-  const item = getAnnouncement(slug);
+  const item = await getAnnouncement(slug);
   if (!item) notFound();
 
   return (

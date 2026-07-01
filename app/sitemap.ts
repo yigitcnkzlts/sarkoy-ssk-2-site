@@ -3,13 +3,16 @@ import { navLinks } from "@/lib/navigation";
 import { siteConfig } from "@/lib/site";
 import type { MetadataRoute } from "next";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteConfig.siteUrl;
+  const announcements = await getAnnouncements();
   const routes = [
     "",
     ...navLinks.map((link) => link.href),
     "/baglantilar",
-    ...getAnnouncements().map((item) => `/belgeler/${item.slug}`),
+    ...announcements.map((item) => `/belgeler/${item.slug}`),
   ];
 
   return routes.map((route) => ({

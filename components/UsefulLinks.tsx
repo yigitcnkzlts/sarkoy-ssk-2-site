@@ -41,7 +41,7 @@ const links = [
     icon: Map,
     title: "Harita / Yol Tarifi",
     description: `${siteConfig.fullName} konumuna yol tarifi alın.`,
-    href: "https://maps.google.com",
+    href: siteConfig.map.directionsUrl,
   },
 ];
 

@@ -27,7 +27,9 @@ export default function SiteMap({ compact = false, className = "" }: SiteMapProp
             <MapPin size={18} className="mt-0.5 flex-shrink-0 text-sea" />
             <div>
               <p className="font-semibold text-navy">{siteConfig.address}</p>
-              <p className="text-sm text-navy/60">Denize 1 dakika · Şarköy sahil bandı</p>
+              <p className="text-sm text-navy/60">
+                Cumhuriyet Mah. sahil bandı · Denize 1 dakika
+              </p>
             </div>
           </div>
           <Link
