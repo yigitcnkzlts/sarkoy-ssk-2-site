@@ -1,5 +1,4 @@
 import About from "@/components/About";
-import Features from "@/components/Features";
 import PageBanner from "@/components/PageBanner";
 import { pageMeta } from "@/lib/navigation";
 import { pageTitle } from "@/lib/site";
@@ -16,7 +15,6 @@ export default function SiteHakkindaPage() {
     <main>
       <PageBanner title={meta.title} description={meta.description} />
       <About hideHeader />
-      <Features hideHeader />
     </main>
   );
 }

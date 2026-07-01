@@ -231,6 +231,12 @@ body {
   font-weight: 800;
 }
 
+.about-image-frame {
+  box-shadow:
+    0 25px 50px -12px rgba(15, 39, 68, 0.25),
+    0 0 0 1px rgba(26, 159, 212, 0.1);
+}
+
 /* Premium overlays */
 .hero-grain::after {
   content: "";
