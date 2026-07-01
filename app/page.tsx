@@ -8,8 +8,13 @@ import HomeLocationWeather from "@/components/home/HomeLocationWeather";
 import HomeQuickLinks from "@/components/HomeQuickLinks";
 import Hero from "@/components/Hero";
 import SiteStats from "@/components/SiteStats";
+import { getAnnouncements } from "@/lib/announcements";
+import { contentStore } from "@/lib/db/store";
 
 export default function Home() {
+  const announcements = getAnnouncements().slice(0, 3);
+  const events = contentStore.getEvents(true).slice(0, 3);
+
   return (
     <main>
       <Hero />
@@ -18,8 +23,8 @@ export default function Home() {
       <HomeFacilities />
       <HomeLocationWeather />
       <HomeGalleryPreview />
-      <HomeAnnouncementsPreview />
-      <HomeEventsPreview />
+      <HomeAnnouncementsPreview items={announcements} />
+      <HomeEventsPreview items={events} />
       <HomeQuickLinks />
       <HomeCta />
     </main>

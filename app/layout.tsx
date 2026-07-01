@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
+import PublicChrome from "@/components/PublicChrome";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
@@ -68,10 +69,14 @@ export default function RootLayout({
     <html lang="tr" className={`${inter.variable} ${playfair.variable}`}>
       <body className="antialiased">
         <JsonLd />
-        <Navbar />
+        <PublicChrome>
+          <Navbar />
+        </PublicChrome>
         {children}
-        <Footer />
-        <WhatsAppButton />
+        <PublicChrome>
+          <Footer />
+          <WhatsAppButton />
+        </PublicChrome>
       </body>
     </html>
   );

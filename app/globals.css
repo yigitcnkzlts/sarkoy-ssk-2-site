@@ -281,6 +281,23 @@ body {
   to { opacity: 1; }
 }
 
+.admin-input {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--color-sand) 80%, transparent);
+  background: white;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  color: var(--color-navy);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.admin-input:focus {
+  border-color: color-mix(in srgb, var(--color-sea) 50%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-sea) 15%, transparent);
+}
+
 /* Print styles for documents */
 @media print {
   .no-print {

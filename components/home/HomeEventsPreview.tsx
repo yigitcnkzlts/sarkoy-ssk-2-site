@@ -3,29 +3,9 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Clock, MapPin, PartyPopper } from "lucide-react";
 import Link from "next/link";
+import type { SiteEvent } from "@/lib/types/content";
 
-const upcomingEvents = [
-  {
-    title: "Yaz Sezonu Açılış Pikniği",
-    date: "28 Haziran 2026",
-    time: "11:00",
-    location: "Site Sosyal Alanı",
-  },
-  {
-    title: "Genel Kurul Toplantısı",
-    date: "28 Haziran 2026",
-    time: "10:00",
-    location: "Site Yönetim Binası",
-  },
-  {
-    title: "Çocuklar İçin Yaz Etkinliği",
-    date: "5 Temmuz 2026",
-    time: "15:00",
-    location: "Site Oyun Alanı",
-  },
-];
-
-export default function HomeEventsPreview() {
+export default function HomeEventsPreview({ items }: { items: SiteEvent[] }) {
   return (
     <section className="bg-mesh-light py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -48,9 +28,9 @@ export default function HomeEventsPreview() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">
-          {upcomingEvents.map((event, i) => (
+          {items.map((event, i) => (
             <motion.div
-              key={event.title}
+              key={event.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -74,14 +54,18 @@ export default function HomeEventsPreview() {
                     {event.title}
                   </h3>
                   <div className="space-y-1 text-xs text-navy/50">
-                    <span className="flex items-center gap-1.5">
-                      <Clock size={12} className="text-sea" />
-                      {event.time}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <MapPin size={12} className="text-sea" />
-                      {event.location}
-                    </span>
+                    {event.time && (
+                      <span className="flex items-center gap-1.5">
+                        <Clock size={12} className="text-sea" />
+                        {event.time}
+                      </span>
+                    )}
+                    {event.location && (
+                      <span className="flex items-center gap-1.5">
+                        <MapPin size={12} className="text-sea" />
+                        {event.location}
+                      </span>
+                    )}
                   </div>
                 </div>
               </Link>

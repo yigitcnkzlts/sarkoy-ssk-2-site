@@ -29,7 +29,7 @@ export default async function BelgePage({ params }: Props) {
         <PageBanner title={item.title} description={`${item.category} · ${item.date}`} />
       </div>
       <Suspense>
-        <DocumentPageClient slug={slug} />
+        <DocumentPageClient item={item} />
       </Suspense>
     </main>
   );

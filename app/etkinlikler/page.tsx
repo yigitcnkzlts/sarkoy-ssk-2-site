@@ -1,5 +1,6 @@
 import Events from "@/components/Events";
 import PageBanner from "@/components/PageBanner";
+import { contentStore } from "@/lib/db/store";
 import { pageMeta } from "@/lib/navigation";
 import { pageTitle } from "@/lib/site";
 import type { Metadata } from "next";
@@ -11,10 +12,11 @@ export const metadata: Metadata = {
 
 export default function EtkinliklerPage() {
   const meta = pageMeta["/etkinlikler"];
+  const events = contentStore.getEvents(true);
   return (
     <main>
       <PageBanner title={meta.title} description={meta.description} />
-      <Events hideHeader />
+      <Events hideHeader items={events} />
     </main>
   );
 }

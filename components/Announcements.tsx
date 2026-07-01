@@ -4,9 +4,16 @@ import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Download, FileText } from "lucide-react";
 import Link from "next/link";
 import SectionHeader from "./SectionHeader";
-import { announcements, categoryColors } from "@/lib/announcements";
+import { categoryColors } from "@/lib/announcements";
+import type { Announcement } from "@/lib/types/content";
 
-export default function Announcements({ hideHeader = false }: { hideHeader?: boolean }) {
+export default function Announcements({
+  hideHeader = false,
+  items,
+}: {
+  hideHeader?: boolean;
+  items: Announcement[];
+}) {
   return (
     <section id="duyurular" className={`bg-mesh-light ${hideHeader ? "py-12 sm:py-16" : "py-24 sm:py-32"}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -19,7 +26,7 @@ export default function Announcements({ hideHeader = false }: { hideHeader?: boo
         )}
 
         <div className="grid gap-6 sm:grid-cols-2">
-          {announcements.map((item, i) => (
+          {items.map((item, i) => (
             <motion.article
               key={item.slug}
               initial={{ opacity: 0, y: 30 }}

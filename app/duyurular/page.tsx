@@ -1,5 +1,6 @@
 import Announcements from "@/components/Announcements";
 import PageBanner from "@/components/PageBanner";
+import { getAnnouncements } from "@/lib/announcements";
 import { pageMeta } from "@/lib/navigation";
 import { pageTitle } from "@/lib/site";
 import type { Metadata } from "next";
@@ -11,10 +12,11 @@ export const metadata: Metadata = {
 
 export default function DuyurularPage() {
   const meta = pageMeta["/duyurular"];
+  const announcements = getAnnouncements();
   return (
     <main>
       <PageBanner title={meta.title} description={meta.description} />
-      <Announcements hideHeader />
+      <Announcements hideHeader items={announcements} />
     </main>
   );
 }

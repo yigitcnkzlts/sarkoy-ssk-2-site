@@ -4,53 +4,15 @@ import { motion } from "framer-motion";
 import { Calendar, Clock, MapPin, PartyPopper } from "lucide-react";
 import SectionHeader from "./SectionHeader";
 import { siteConfig } from "@/lib/site";
+import { eventTagColors, type SiteEvent } from "@/lib/types/content";
 
-const events = [
-  {
-    title: "Yaz Sezonu Açılış Pikniği",
-    date: "28 Haziran 2026",
-    time: "11:00 – 16:00",
-    location: "Site Sosyal Alanı",
-    description:
-      "Yaz sezonunun açılışını birlikte kutluyoruz. Tüm site sakinleri ve aileleri davetlidir. Yönetim ikramları olacaktır.",
-    tag: "Sosyal",
-  },
-  {
-    title: "Genel Kurul Toplantısı",
-    date: "28 Haziran 2026",
-    time: "10:00 – 12:00",
-    location: "Site Yönetim Binası",
-    description:
-      "2026 yılı olağan genel kurul toplantısı. Gündem maddeleri duyurular bölümünde paylaşılmıştır.",
-    tag: "Resmi",
-  },
-  {
-    title: "Çocuklar İçin Yaz Etkinliği",
-    date: "5 Temmuz 2026",
-    time: "15:00 – 18:00",
-    location: "Site Oyun Alanı",
-    description:
-      "Site sakinlerinin çocukları için oyun turnuvası ve eğlence etkinliği. Katılım ücretsizdir.",
-    tag: "Aile",
-  },
-  {
-    title: "Mangal ve Komşuluk Gecesi",
-    date: "19 Temmuz 2026",
-    time: "18:00 – 22:00",
-    location: "Site Barbekü Alanı",
-    description:
-      "Geleneksel yaz mangal gecesi. Site sakinleri kendi ikramlarını getirebilir, ortak alan kullanım kuralları geçerlidir.",
-    tag: "Sosyal",
-  },
-];
-
-const tagColors: Record<string, string> = {
-  Sosyal: "bg-sea text-white",
-  Resmi: "bg-navy text-white",
-  Aile: "bg-gold/80 text-navy",
-};
-
-export default function Events({ hideHeader = false }: { hideHeader?: boolean }) {
+export default function Events({
+  hideHeader = false,
+  items,
+}: {
+  hideHeader?: boolean;
+  items: SiteEvent[];
+}) {
   return (
     <section id="etkinlikler" className={`bg-mesh-light ${hideHeader ? "py-12 sm:py-16" : "py-24 sm:py-32"}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -63,9 +25,9 @@ export default function Events({ hideHeader = false }: { hideHeader?: boolean })
         )}
 
         <div className="grid gap-5 sm:grid-cols-2">
-          {events.map((event, i) => (
+          {items.map((event, i) => (
             <motion.article
-              key={event.title}
+              key={event.id}
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -85,7 +47,7 @@ export default function Events({ hideHeader = false }: { hideHeader?: boolean })
               <div className="flex-1">
                 <div className="mb-2 flex flex-wrap items-center gap-2">
                   <span
-                    className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${tagColors[event.tag]}`}
+                    className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${eventTagColors[event.tag]}`}
                   >
                     {event.tag}
                   </span>
@@ -101,14 +63,18 @@ export default function Events({ hideHeader = false }: { hideHeader?: boolean })
                     <Calendar size={13} className="text-sea" />
                     {event.date}
                   </span>
-                  <span className="flex items-center gap-1.5">
-                    <Clock size={13} className="text-sea" />
-                    {event.time}
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <MapPin size={13} className="text-sea" />
-                    {event.location}
-                  </span>
+                  {event.time && (
+                    <span className="flex items-center gap-1.5">
+                      <Clock size={13} className="text-sea" />
+                      {event.time}
+                    </span>
+                  )}
+                  {event.location && (
+                    <span className="flex items-center gap-1.5">
+                      <MapPin size={13} className="text-sea" />
+                      {event.location}
+                    </span>
+                  )}
                 </div>
               </div>
             </motion.article>

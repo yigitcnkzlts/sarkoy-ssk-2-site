@@ -3,11 +3,10 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Download, Megaphone } from "lucide-react";
 import Link from "next/link";
-import { announcements, categoryColors } from "@/lib/announcements";
+import { categoryColors } from "@/lib/announcements";
+import type { Announcement } from "@/lib/types/content";
 
-const latestAnnouncements = announcements.slice(0, 3);
-
-export default function HomeAnnouncementsPreview() {
+export default function HomeAnnouncementsPreview({ items }: { items: Announcement[] }) {
   return (
     <section className="bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -30,7 +29,7 @@ export default function HomeAnnouncementsPreview() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">
-          {latestAnnouncements.map((item, i) => (
+          {items.map((item, i) => (
             <motion.div
               key={item.slug}
               initial={{ opacity: 0, y: 20 }}

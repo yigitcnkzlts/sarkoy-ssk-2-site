@@ -4,12 +4,11 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Download, Printer } from "lucide-react";
-import { getAnnouncement } from "@/lib/announcements";
 import { siteConfig } from "@/lib/site";
+import type { Announcement } from "@/lib/types/content";
 
-export default function DocumentPageClient({ slug }: { slug: string }) {
+export default function DocumentPageClient({ item }: { item: Announcement }) {
   const searchParams = useSearchParams();
-  const item = getAnnouncement(slug)!;
 
   useEffect(() => {
     if (searchParams.get("print") === "1") {
